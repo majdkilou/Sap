@@ -1,0 +1,30 @@
+.book-detail {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .book-detail img {
+    margin: 20px 0;
+  }
+  
+  .book-detail p {
+    font-size: 1em;
+    line-height: 1.5;
+  }
+  
+  .book-detail strong {
+    display: block;
+    margin: 10px 0 5px;
+  }
+  
+  .book-detail label {
+    display: block;
+    margin: 10px 0 5px;
+  }
+  
+  .book-detail select,
+  .book-detail button {
+    padding: 5px;
+    margin: 10px 0;
+  }
+  
