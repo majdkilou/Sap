@@ -7,13 +7,17 @@ const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await register({ username, password });
-      navigate('/login');
+      setSuccess('Registration successful! Redirecting to login page...');
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000); // Redirect after 2 seconds
     } catch (err) {
       setError('Registration failed. Please try again.');
     }
@@ -23,6 +27,7 @@ const Register = () => {
     <div className="register-container">
       <h1>Register</h1>
       {error && <p className="error-message">{error}</p>}
+      {success && <p className="success-message">{success}</p>}
       <form onSubmit={handleSubmit} className="register-form">
         <div className="form-group">
           <label htmlFor="username">Username</label>
