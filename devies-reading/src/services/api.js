@@ -17,6 +17,13 @@ export const getBook = async (id) => {
   return response.data;
 };
 
+export const getUser = async (userId) => {
+  const response = await axios.get(`${API_URL}/users/${userId}`, {
+    headers: getAuthHeader(),
+  });
+  return response.data;
+};
+
 export const login = async (credentials) => {
   const response = await axios.post(`${API_URL}/auth/login`, credentials);
   return response.data;
@@ -36,9 +43,18 @@ export const rateBook = async (bookId, rating) => {
   return response.data;
 };
 
-export const updateBookStatus = async (bookId, status) => {
+export const addBookStatus = async (userId, bookId, status) => {
   const response = await axios.post(
-    `${API_URL}/books/${bookId}/status`,
+    `${API_URL}/users/${userId}/shelf`,
+    { bookId, status },
+    { headers: getAuthHeader() }
+  );
+  return response.data;
+};
+
+export const updateBookStatus = async (userId, bookId, status) => {
+  const response = await axios.put(
+    `${API_URL}/users/${userId}/shelf`,
     { bookId, status },
     { headers: getAuthHeader() }
   );

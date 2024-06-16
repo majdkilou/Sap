@@ -1,4 +1,9 @@
-.book-list {
+.my-books {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .book-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -23,18 +28,5 @@
   
   .book-card p {
     font-size: 0.9em;
-  }
-  
-  .search-filters {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .search-filters input,
-  .search-filters select {
-    padding: 10px;
-    margin: 0 10px;
-    width: 200px;
   }
   

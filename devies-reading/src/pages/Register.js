@@ -1,49 +1,50 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { register } from '../services/api';
+import './Register.css'; // Import the CSS file
 
 const Register = () => {
-  const [userData, setUserData] = useState({ username: '', password: '' });
-  const [error, setError] = useState(null);
-
-  const handleChange = (e) => {
-    setUserData({ ...userData, [e.target.name]: e.target.value });
-  };
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await register(userData);
-      console.log(response); // Handle successful registration
-      setError(null); // Clear any previous errors
-      // Optionally, redirect the user to the login page or another page
-    } catch (error) {
+      await register({ username, password });
+      navigate('/login');
+    } catch (err) {
       setError('Registration failed. Please try again.');
-      console.error('Error registering user:', error);
     }
   };
 
   return (
-    <div>
+    <div className="register-container">
       <h1>Register</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          value={userData.username}
-          onChange={handleChange}
-          placeholder="Username"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          value={userData.password}
-          onChange={handleChange}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Register</button>
+      {error && <p className="error-message">{error}</p>}
+      <form onSubmit={handleSubmit} className="register-form">
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="register-button">Register</button>
       </form>
     </div>
   );

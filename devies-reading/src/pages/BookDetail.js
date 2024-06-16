@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { getBook, rateBook, updateBookStatus } from '../services/api';
+import { getBook, rateBook, addBookStatus, updateBookStatus, getUser } from '../services/api';
 import { AuthContext } from '../contexts/AuthContext';
 import ReactStars from "react-rating-stars-component";
 import './BookDetail.css'; // Import the CSS file
@@ -9,20 +9,29 @@ const BookDetail = () => {
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [selectedRating, setSelectedRating] = useState(0);
+  const [selectedStatus, setSelectedStatus] = useState('');
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    const fetchBook = async () => {
+    const fetchBookAndUser = async () => {
       try {
-        const data = await getBook(id);
-        setBook(data);
-        setSelectedRating(data.userRating);
+        const bookData = await getBook(id);
+        setBook(bookData);
+        setSelectedRating(bookData.userRating);
+
+        if (user) {
+          const userData = await getUser(user.userId);
+          const bookStatus = userData.shelf.find(item => item.bookId === id);
+          if (bookStatus) {
+            setSelectedStatus(bookStatus.status);
+          }
+        }
       } catch (error) {
-        console.error('Error fetching book:', error);
+        console.error('Error fetching data:', error);
       }
     };
-    fetchBook();
-  }, [id]);
+    fetchBookAndUser();
+  }, [id, user]);
 
   const handleRatingChange = async (nextValue) => {
     setSelectedRating(nextValue);
@@ -35,9 +44,15 @@ const BookDetail = () => {
   };
 
   const handleStatusChange = async (status) => {
+    setSelectedStatus(status);
     try {
-      const updatedBook = await updateBookStatus(id, status);
-      setBook(updatedBook);
+      if (selectedStatus) {
+        // Update existing status with PUT request
+        await updateBookStatus(user.userId, id, status);
+      } else {
+        // Add new status with POST request
+        await addBookStatus(user.userId, id, status);
+      }
     } catch (error) {
       console.error('Error updating book status:', error);
     }
@@ -60,13 +75,18 @@ const BookDetail = () => {
         <>
           <div>
             <label htmlFor="status">Update Status:</label>
-            <select id="status" onChange={(e) => handleStatusChange(e.target.value)}>
+            <select 
+              id="status" 
+              value={selectedStatus} 
+              onChange={(e) => handleStatusChange(e.target.value)}
+            >
+              <option value="">Select Status</option>
               <option value="haveRead">Have Read</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
             </select>
           </div>
-          <div>
+          <div className="star-rating">
             <label htmlFor="rating">Rate this book:</label>
             <ReactStars
               count={5}
