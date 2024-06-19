@@ -1,11 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/api';
-import { AuthContext } from '../contexts/AuthContext';
+import { login } from '../../services/api';
+import { AuthContext } from '../../contexts/AuthContext';
 import './Login.css'; // Import the CSS file
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [credentials, setCredentials] = useState({
+    username: '',
+    password: '',
+  });
   const [error, setError] = useState(null);
   const { login: loginUser } = useContext(AuthContext);
   const navigate = useNavigate();

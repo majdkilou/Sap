@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { getUser, getBook } from '../services/api';
-import { AuthContext } from '../contexts/AuthContext';
+import { getUser, getBook } from '../../services/api';
+import { AuthContext } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import './MyBooks.css'; // Import the CSS file
 

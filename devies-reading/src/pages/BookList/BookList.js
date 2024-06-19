@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getBooks } from '../services/api';
+import { getBooks } from '../../services/api';
 import { Link } from 'react-router-dom';
 import './BookList.css'; // Import the CSS file
 
@@ -25,7 +25,7 @@ const BookList = () => {
 
   useEffect(() => {
     const filterAndSortBooks = () => {
-      let filtered = books.filter(book => {
+      let filtered = books.filter((book) => {
         const bookName = book.name ? book.name.toLowerCase() : '';
         const bookGenre = book.genre ? book.genre.toLowerCase() : '';
         return (

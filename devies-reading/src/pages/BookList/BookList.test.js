@@ -6,30 +6,32 @@ import '@testing-library/jest-dom';
 
 // Mock the API call
 jest.mock('../services/api', () => ({
-  getBooks: jest.fn(() => Promise.resolve([
-    {
-      id: '1',
-      name: 'Book One',
-      genre: 'Fiction',
-      coverUrl: 'http://example.com/book1.jpg',
-      averageRating: 4.5,
-      haveRead: 100,
-      currentlyReading: 50,
-      wantToRead: 200,
-      userRating: 4
-    },
-    {
-      id: '2',
-      name: 'Book Two',
-      genre: 'Non-Fiction',
-      coverUrl: 'http://example.com/book2.jpg',
-      averageRating: 3.5,
-      haveRead: 80,
-      currentlyReading: 30,
-      wantToRead: 150,
-      userRating: 3
-    }
-  ]))
+  getBooks: jest.fn(() =>
+    Promise.resolve([
+      {
+        id: '1',
+        name: 'Book One',
+        genre: 'Fiction',
+        coverUrl: 'http://example.com/book1.jpg',
+        averageRating: 4.5,
+        haveRead: 100,
+        currentlyReading: 50,
+        wantToRead: 200,
+        userRating: 4,
+      },
+      {
+        id: '2',
+        name: 'Book Two',
+        genre: 'Non-Fiction',
+        coverUrl: 'http://example.com/book2.jpg',
+        averageRating: 3.5,
+        haveRead: 80,
+        currentlyReading: 30,
+        wantToRead: 150,
+        userRating: 3,
+      },
+    ])
+  ),
 }));
 
 describe('BookList', () => {
@@ -64,7 +66,7 @@ describe('BookList', () => {
 
     // Search for "Book One"
     fireEvent.change(screen.getByPlaceholderText(/search by name/i), {
-      target: { value: 'Book One' }
+      target: { value: 'Book One' },
     });
 
     // Check if only "Book One" is displayed
@@ -84,7 +86,7 @@ describe('BookList', () => {
 
     // Search for "Fiction"
     fireEvent.change(screen.getByPlaceholderText(/search by genre/i), {
-      target: { value: 'Fiction' }
+      target: { value: 'Fiction' },
     });
 
     // Check if only "Book One" is displayed
@@ -104,7 +106,7 @@ describe('BookList', () => {
 
     // Sort by name
     fireEvent.change(screen.getByDisplayValue(/name/i), {
-      target: { value: 'name' }
+      target: { value: 'name' },
     });
 
     const books = screen.getAllByRole('heading', { level: 2 });

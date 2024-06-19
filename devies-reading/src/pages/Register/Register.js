@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { register } from '../services/api';
+import { register } from '../../services/api';
 import './Register.css'; // Import the CSS file
 
 const Register = () => {
@@ -49,7 +49,9 @@ const Register = () => {
             required
           />
         </div>
-        <button type="submit" className="register-button">Register</button>
+        <button type="submit" className="register-button">
+          Register
+        </button>
       </form>
     </div>
   );
